@@ -1,0 +1,61 @@
+reference,stratum,source_in_pretraining,evidence
+R1,S1,unknown,"WebText = web pages linked from Reddit (Radford et al., 2019): no dedicated component, incidental pages possible"
+R1,S2,unknown,"WebText = web pages linked from Reddit (Radford et al., 2019): no dedicated component, incidental pages possible"
+R1,S3,unknown,"WebText = web pages linked from Reddit (Radford et al., 2019): no dedicated component, incidental pages possible"
+R1,S4,unknown,"WebText = web pages linked from Reddit (Radford et al., 2019): no dedicated component, incidental pages possible"
+R1,S5,unknown,"WebText = web pages linked from Reddit (Radford et al., 2019): no dedicated component, incidental pages possible"
+R1,S6,unknown,"WebText = web pages linked from Reddit (Radford et al., 2019): no dedicated component, incidental pages possible"
+R1,S10,unknown,"WebText = web pages linked from Reddit (Radford et al., 2019): no dedicated component, incidental pages possible"
+R1,S11,unknown,"WebText = web pages linked from Reddit (Radford et al., 2019): no dedicated component, incidental pages possible"
+R1,S7,0,not published as web pages (registration or licensed download)
+R1,S8,0,not published as web pages (registration or licensed download)
+R1,S9,0,not published as web pages (registration or licensed download)
+R1,S12,0,not published as web pages (registration or licensed download)
+R2,S1,1,"PG-19 in The Pile component list (Gao et al., 2020, Table 1)"
+R2,S2,1,"PG-19 in The Pile component list (Gao et al., 2020, Table 1)"
+R2,S3,1,"ArXiv in The Pile component list (Gao et al., 2020, Table 1)"
+R2,S4,1,"ArXiv in The Pile component list (Gao et al., 2020, Table 1)"
+R2,S5,1,"StackExchange in The Pile component list (Gao et al., 2020, Table 1)"
+R2,S6,1,"StackExchange in The Pile component list (Gao et al., 2020, Table 1)"
+R2,S11,1,"FreeLaw (CourtListener) in The Pile component list (Gao et al., 2020, Table 1)"
+R2,S7,0,not published as web pages (registration or licensed download)
+R2,S8,0,not published as web pages (registration or licensed download)
+R2,S9,0,not published as web pages (registration or licensed download)
+R2,S10,0,"no Twitter component in The Pile component list (Gao et al., 2020, Table 1)"
+R2,S12,0,not published as web pages (registration or licensed download)
+R3,S1,1,"PG-19 in The Pile component list (Gao et al., 2020, Table 1) (Pythia trained on The Pile)"
+R3,S2,1,"PG-19 in The Pile component list (Gao et al., 2020, Table 1) (Pythia trained on The Pile)"
+R3,S3,1,"ArXiv in The Pile component list (Gao et al., 2020, Table 1) (Pythia trained on The Pile)"
+R3,S4,1,"ArXiv in The Pile component list (Gao et al., 2020, Table 1) (Pythia trained on The Pile)"
+R3,S5,1,"StackExchange in The Pile component list (Gao et al., 2020, Table 1) (Pythia trained on The Pile)"
+R3,S6,1,"StackExchange in The Pile component list (Gao et al., 2020, Table 1) (Pythia trained on The Pile)"
+R3,S11,1,"FreeLaw (CourtListener) in The Pile component list (Gao et al., 2020, Table 1) (Pythia trained on The Pile)"
+R3,S7,0,not published as web pages (registration or licensed download) (Pythia trained on The Pile)
+R3,S8,0,not published as web pages (registration or licensed download) (Pythia trained on The Pile)
+R3,S9,0,not published as web pages (registration or licensed download) (Pythia trained on The Pile)
+R3,S10,0,"no Twitter component in The Pile component list (Gao et al., 2020, Table 1) (Pythia trained on The Pile)"
+R3,S12,0,not published as web pages (registration or licensed download) (Pythia trained on The Pile)
+R4,S1,unknown,no dedicated component; DCLM web crawl may include incidental pages
+R4,S2,unknown,no dedicated component; DCLM web crawl may include incidental pages
+R4,S3,1,"olmo-mix-1124 dataset card: DCLM-Baseline, Arxiv, pes2o, starcoder, Algebraic-stack, OpenWebMath, Wiki"
+R4,S4,1,"olmo-mix-1124 dataset card: DCLM-Baseline, Arxiv, pes2o, starcoder, Algebraic-stack, OpenWebMath, Wiki"
+R4,S5,1,dolmino-mix-1124 dataset card: includes StackExchange (1.26B tokens)
+R4,S6,1,dolmino-mix-1124 dataset card: includes StackExchange (1.26B tokens)
+R4,S7,0,not published as web pages (registration or licensed download)
+R4,S8,0,not published as web pages (registration or licensed download)
+R4,S9,0,not published as web pages (registration or licensed download)
+R4,S10,unknown,no dedicated component; DCLM web crawl may include incidental pages
+R4,S11,unknown,no dedicated component; DCLM web crawl may include incidental pages
+R4,S12,0,not published as web pages (registration or licensed download)
+R5,S1,unknown,Qwen2.5 pretraining mix undisclosed
+R5,S2,unknown,Qwen2.5 pretraining mix undisclosed
+R5,S3,unknown,Qwen2.5 pretraining mix undisclosed
+R5,S4,unknown,Qwen2.5 pretraining mix undisclosed
+R5,S5,unknown,Qwen2.5 pretraining mix undisclosed
+R5,S6,unknown,Qwen2.5 pretraining mix undisclosed
+R5,S7,unknown,Qwen2.5 pretraining mix undisclosed
+R5,S8,unknown,Qwen2.5 pretraining mix undisclosed
+R5,S9,unknown,Qwen2.5 pretraining mix undisclosed
+R5,S10,unknown,Qwen2.5 pretraining mix undisclosed
+R5,S11,unknown,Qwen2.5 pretraining mix undisclosed
+R5,S12,unknown,Qwen2.5 pretraining mix undisclosed
