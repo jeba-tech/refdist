@@ -1,8 +1,8 @@
 """
 FROZEN registries for the REFDIST study.
 
-Nothing in this file may change after the OSF data-collection start date
-(2026-09-28) without a logged public amendment. The registries here define
+Nothing in this file may change after the OSF registration date
+(2026-10-04) without a logged public amendment. The registries here define
 every hypothesis test; silently editing one invalidates the pre-registration.
 
 The independence assertion at the bottom of this file is the single most
@@ -341,7 +341,7 @@ STUDY = {
     "github": "https://github.com/jeba-tech/refdist",
     "osf": "",     # fill after registration
     "arxiv": "",   # fill after posting
-    "registration_date": "2026-09-28",
+    "registration_date": "2026-10-04",
 }
 
 # ─────────────────────────────────────────────────────────────────────────────

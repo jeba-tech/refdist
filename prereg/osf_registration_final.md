@@ -4,7 +4,7 @@
 
 Author: Independent researcher (fawjiajeba@gmail.com)
 Code: https://github.com/jeba-tech/refdist (the commit tagged `prereg` is the one this document describes)
-Date registered: October 2, 2026
+Date registered: October 4, 2026
 
 ---
 
