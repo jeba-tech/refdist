@@ -105,6 +105,10 @@ def synth(effect: float, seed: int = 0) -> None:
     d5 = scores["detector"] == "D5"
     scores.loc[d5, "score"] = 1 - scores.loc[d5, "score"]
 
+    # Real scores carry each scorer's own token count; Phase 1 crashed on the
+    # resulting column clash, so the synthetic data must carry it too.
+    scores["n_tokens"] = rng.integers(140, 420, len(scores))
+
     pd.DataFrame(docs).to_parquet(paths.documents_file(), index=False)
     pd.DataFrame(var_rows).to_parquet(paths.variants_file(), index=False)
     scores.to_parquet(paths.scores_file(), index=False)

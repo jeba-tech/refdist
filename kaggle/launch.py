@@ -51,7 +51,7 @@ def bundle() -> None:
     with zipfile.ZipFile(d / "code.zip", "w", zipfile.ZIP_DEFLATED) as z:
         for sub in ("refdist", "scripts", "prereg"):
             for f in (ROOT / sub).rglob("*"):
-                if f.is_file() and "__pycache__" not in f.parts and not f.name.startswith("forecast_"):
+                if f.is_file() and "__pycache__" not in f.parts:
                     z.write(f, Path("code") / f.relative_to(ROOT))
         z.write(ROOT / "pyproject.toml", "code/pyproject.toml")
     for name in ("documents.parquet", "variants.parquet"):

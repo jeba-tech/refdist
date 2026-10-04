@@ -21,6 +21,11 @@ from refdist.scoring.runner import PREDICTOR_KEY
 
 def load() -> tuple[pd.DataFrame, pd.DataFrame]:
     scores = pd.read_parquet(paths.scores_file())
+    # Scores carry each scoring model's own token count. Length in every analysis
+    # is the documents' GPT-2 ruler count, so the scorer's count is renamed;
+    # otherwise every merge with `docs` would split `n_tokens` into _x/_y.
+    if "n_tokens" in scores.columns:
+        scores = scores.rename(columns={"n_tokens": "scorer_n_tokens"})
     docs = pd.read_parquet(paths.documents_file(), columns=["doc_id", "stratum", "n_tokens"])
     return scores, docs
 

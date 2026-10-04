@@ -339,7 +339,7 @@ STUDY = {
     "name": "REFDIST",
     "title": "REFDIST: A Causal Reference-Swap Audit of False Positives in AI Text Detectors",
     "github": "https://github.com/jeba-tech/refdist",
-    "osf": "",     # fill after registration
+    "osf": "https://osf.io/3a7hs",  # registered 2026-10-04 14:05 UTC, embargoed to 2026-11-15
     "arxiv": "",   # fill after posting
     "registration_date": "2026-10-04",
 }
