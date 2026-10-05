@@ -89,7 +89,10 @@ subprocess.run([sys.executable, "/kaggle/working/code/scripts/kaggle_phase.py", 
 '''
 
 
-PREV = {"0": None, "0b": "0", "1": "0b", "2": "1"}  # each phase builds on the previous one's output
+PREV = {"0": None, "0b": "0", "1": "0b", "2": None}  # each phase builds on the previous one's output
+# Phase 1 ended in an error at its last (CPU) step, and Kaggle won't attach an
+# errored run as a kernel source, so its outputs travel as an uploaded dataset.
+EXTRA_DATASETS = {"2": ["refdist-phase1-out"]}
 
 
 def push(phase: str, osf: str = "") -> None:
@@ -107,11 +110,27 @@ def push(phase: str, osf: str = "") -> None:
         "id": f"{u}/refdist-phase{phase}", "title": f"refdist-phase{phase}", "code_file": "run.py",
         "language": "python", "kernel_type": "script", "is_private": True,
         "enable_gpu": True, "enable_internet": True, "machine_shape": "NvidiaTeslaT4",
-        "dataset_sources": [f"{u}/refdist-bundle"],
+        "dataset_sources": [f"{u}/refdist-bundle"] + [f"{u}/{d}" for d in EXTRA_DATASETS.get(phase, [])],
         "kernel_sources": [f"{u}/refdist-phase{PREV[phase]}"] if PREV.get(phase) else [],
     }
     (d / "kernel-metadata.json").write_text(json.dumps(meta, indent=1))
     print(kaggle("kernels", "push", "-p", str(d), "--accelerator", "NvidiaTeslaT4"))
+
+
+def upload_outputs(phase: str) -> None:
+    """Upload a downloaded run's data/ folder as the private dataset refdist-phase{N}-out."""
+    src = ROOT / "data" / "kaggle" / f"phase{phase}" / "data"
+    d = BUILD / f"phase{phase}-out"
+    shutil.rmtree(d, ignore_errors=True)
+    d.mkdir(parents=True)
+    with zipfile.ZipFile(d / f"phase{phase}out.zip", "w", zipfile.ZIP_STORED) as z:
+        for f in src.rglob("*"):
+            if f.is_file():
+                z.write(f, Path("data") / f.relative_to(src))
+    slug = f"refdist-phase{phase}-out"
+    (d / "dataset-metadata.json").write_text(json.dumps(
+        {"title": slug, "id": f"{user()}/{slug}", "licenses": [{"name": "other"}]}, indent=1))
+    print(kaggle("datasets", "create", "-p", str(d), "--dir-mode", "skip"))
 
 
 def status(phase: str) -> None:
@@ -126,4 +145,5 @@ def pull(phase: str) -> None:
 
 if __name__ == "__main__":
     cmd, *rest = sys.argv[1:]
-    {"bundle": bundle, "push": push, "status": status, "pull": pull}[cmd](*rest)
+    {"bundle": bundle, "push": push, "status": status, "pull": pull,
+     "upload-outputs": upload_outputs}[cmd](*rest)

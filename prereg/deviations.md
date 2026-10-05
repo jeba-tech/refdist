@@ -57,3 +57,67 @@ refuses to refit a frozen threshold if any value would change).
 - `prereg/forecast_S10_S12.json`, SHA-256
   `231444d74ae0fcfc3cfdced3e8c1ee69d5d08b5136cd9d787b135b568f54279f`,
   committed 2026-10-04 before any detector scored S10–S12.
+
+---
+
+## 2. Phase 2 input loading (2026-10-04)
+
+**What happened.** Kaggle refused to attach the Phase 1 kernel as an input to
+Phase 2, because that run had ended in the error described in section 1. On
+the second attempt, with the Phase 1 outputs uploaded as a private Kaggle
+dataset (`refdist-phase1-out`) instead, the input step picked up a cache file
+that is also called `variants.parquet` in place of the H5 corpus, and stopped.
+
+**Change.** `scripts/kaggle_phase.py` also accepts earlier outputs that come in
+as a dataset. Corpus files are now read only from the top level of the code
+bundle, and each one is checked for its expected columns before anything runs.
+`kaggle/launch.py` attaches the Phase 1 dataset to Phase 2.
+
+**Effect on the registered analysis.** None. This is plumbing only. The same
+Phase 1 outputs (scores, frozen thresholds, committed forecast) went into
+Phase 2.
+
+## 3. H2 label when a reference pair is missing (2026-10-05)
+
+**What happened.** The R2/R3 matched-data test of H2 needs both R2 and R3. The
+positive-control gate excluded D1@R2, so only R3 was left, and the code fell
+through to a REJECTED verdict on a test that could not be run.
+
+**Change.** `refdist/analysis/hypotheses.py::h2` returns **NOT ESTIMABLE**
+(with the reason) when fewer than two references remain.
+
+**Effect on the registered analysis.** It corrects a label and changes no
+number. The registration already says the matched pair "cannot be tested"
+when a reference is excluded (see the validity outcomes above). The decision
+rule uses H1, H2 and H5. The main H2 test (R3 and R4) is unaffected, and so is
+the decision (SUGGESTIVE).
+
+## 4. Faster bootstrap (2026-10-05)
+
+**Change.** `refdist/analysis/bootstrap.py` selects resampled rows by position
+instead of by merging tables (4.65 s down to 0.17 s per resample). The seed,
+resampling scheme (documents within strata, 1,000 resamples) and models are
+unchanged.
+
+**Effect.** None on results: the old and new code give identical coefficients
+for the same seed. This was checked before the switch.
+
+## 5. Local re-run of the registered report (2026-10-05)
+
+The full report (`python -m refdist.analysis.report`) was re-run locally on the
+Phase 2 outputs with the code in sections 3 and 4. 305 of 307 reported values
+match the Kaggle run exactly. The original Kaggle files are kept beside the new
+ones (`results_kaggle_original.json` and `audit_model_kaggle_original.json`).
+The two differences are p-values in the H2 pretraining-robustness model. That
+model is close to saturated with only two references, so its p-values are
+numerically unstable between machines. Its verdict, every other value and the
+decision are the same.
+
+## 6. Exploratory analysis with all ten instances (2026-10-05)
+
+`scripts/exploratory_all_instances.py` re-runs H1–H6 with all ten detector
+instances, ignoring the positive-control gate. Thresholds are calibrated on S6
+by the same rule, in a scratch copy, so the frozen registered thresholds are
+untouched. Its output (`exploratory_all_instances.json`, figure
+`figS1_h2_all_references_EXPLORATORY`) is **exploratory**. It does not feed the
+registered decision and will be reported in the paper only under that label.

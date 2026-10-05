@@ -39,23 +39,35 @@ def gather_inputs() -> None:
     proc.mkdir(parents=True, exist_ok=True)
     # Earlier phases' outputs first (Kaggle mounts them at notebooks/<user>/<slug>)...
     prev_runs = glob.glob("/kaggle/input/notebooks/*/*/") + glob.glob("/kaggle/input/refdist-phase*/")
-    for run in sorted(prev_runs):
+    # A run that ended in an error can't be attached as a kernel source, so its
+    # outputs may arrive as an uploaded dataset instead (e.g. refdist-phase1-out).
+    for t in glob.glob("/kaggle/input/datasets/**/results/thresholds.json", recursive=True):
+        prev_runs.append(str(Path(t).parent.parent.parent) + "/")
+    for run in sorted(set(prev_runs)):
         if os.path.isdir(os.path.join(run, "data")):
             shutil.copytree(os.path.join(run, "data"), DATA, dirs_exist_ok=True)
         for f in glob.glob(os.path.join(run, "code", "prereg", "forecast_S10_S12.*")):
             shutil.copy(f, CODE / "prereg" / Path(f).name)
     # ...then the bundle, which is the source of truth for the corpus: a stale
     # documents.parquet from an earlier phase must never win.
-    bundle_files = [h for h in glob.glob("/kaggle/input/**/*", recursive=True)
-                    if "/notebooks/" not in h and os.path.isfile(h)]
+    # Only the bundle's top level: other inputs hold caches with the same file
+    # names (every detector caches a "variants.parquet"), and a name search once
+    # picked one of those instead of the corpus.
+    bundle = (glob.glob("/kaggle/input/datasets/*/refdist-bundle") + glob.glob("/kaggle/input/refdist-bundle"))[0]
     for name in ("documents.parquet", "variants.parquet"):
-        hit = [h for h in bundle_files if h.endswith("/" + name)]
-        if hit:
-            shutil.copy(hit[0], proc / name)
-    hit = [h for h in bundle_files if h.endswith("/precision.json")]
-    if hit and not (DATA / "results" / "precision.json").exists():
+        if os.path.isfile(os.path.join(bundle, name)):
+            shutil.copy(os.path.join(bundle, name), proc / name)
+    if os.path.isfile(os.path.join(bundle, "precision.json")) and not (DATA / "results" / "precision.json").exists():
         (DATA / "results").mkdir(parents=True, exist_ok=True)
-        shutil.copy(hit[0], DATA / "results" / "precision.json")
+        shutil.copy(os.path.join(bundle, "precision.json"), DATA / "results" / "precision.json")
+    import pyarrow.parquet as pq
+    expected = {"documents.parquet": {"doc_id", "stratum", "text"}, "variants.parquet": {"variant_id", "doc_id", "text"},
+                "control.parquet": {"doc_id", "text"}}
+    for name, cols in expected.items():
+        if (proc / name).exists():
+            missing = cols - set(pq.read_schema(proc / name).names)
+            if missing:
+                raise SystemExit(f"{name} is the wrong file (missing {sorted(missing)})")
     print("previous runs:", prev_runs)
     print("inputs:", sorted(p.name for p in proc.iterdir()),
           "| results:", sorted(p.name for p in (DATA / "results").iterdir()) if (DATA / "results").exists() else [])

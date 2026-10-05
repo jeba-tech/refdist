@@ -28,12 +28,13 @@ def coefficients(doc_table: pd.DataFrame, own_ppl: pd.DataFrame, n: int | None =
     """own_ppl: reference, stratum, log_ppl_ref (per-cell mean). Returns one row per resample."""
     n = n or config.ANALYSIS["bootstrap_resamples"]
     rng = np.random.default_rng(seed)
+    doc_table = doc_table.reset_index(drop=True)
     docs_by_stratum = {s: g["item_id"].unique() for s, g in doc_table.groupby("stratum")}
-    by_doc = {k: g for k, g in doc_table.groupby("item_id")}
+    rows_of = doc_table.groupby("item_id").indices  # row positions per document, in table order
     rows = []
     for b in range(n):
         picks = [rng.choice(ids, size=len(ids), replace=True) for ids in docs_by_stratum.values()]
-        d = pd.concat([by_doc[i] for i in np.concatenate(picks)], ignore_index=True)
+        d = doc_table.iloc[np.concatenate([rows_of[i] for i in np.concatenate(picks)])]
         c = _cells(d, own_ppl)
         row = {"b": b}
         try:

@@ -86,6 +86,14 @@ def h2(cells: pd.DataFrame, docs: pd.DataFrame, refs: list[str] | None = None,
     if refs:
         c, d = c[c["reference"].isin(refs)], d[d["reference"].isin(refs)]
 
+    present = sorted(c["reference"].unique())
+    if len(present) < 2:
+        # A reference swap needs two references. If the positive control removed
+        # one, the test cannot run; "rejected" would misreport a missing test.
+        return {"refs": refs or "all", "references_available": present,
+                "verdict": "NOT ESTIMABLE",
+                "reason": "fewer than two references passed the positive control"}
+
     fe = smf.ols("fpr ~ log_ppl_ref + length + C(stratum) + C(reference)", c).fit(cov_type="HC3")
     coef, p = fe.params["log_ppl_ref"], fe.pvalues["log_ppl_ref"]
 
