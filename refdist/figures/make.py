@@ -69,11 +69,12 @@ def fig1_h1(cells: pd.DataFrame, out: Path) -> None:
     ax.plot(xs, np.polyval(b, xs), color=INK2, linewidth=1.2, linestyle="--", label="Least-squares fit")
     per = cells.groupby("stratum")["log_ppl_indep"].mean().sort_values()
     span = float(per.max() - per.min()) or 1.0
-    last_x = {0: -1e9, 1: -1e9, 2: -1e9}  # stagger close labels into up to three rows
+    rows = range(6)  # stagger close labels into as many rows as the crowding needs
+    last_x = {r: -1e9 for r in rows}
     for s, x in per.items():
-        row = next((r for r in (0, 1, 2) if (x - last_x[r]) / span > 0.045), 2)
+        row = next((r for r in rows if (x - last_x[r]) / span > 0.03), rows[-1])
         last_x[row] = x
-        ax.annotate(s, (x, 1.0), xycoords=("data", "axes fraction"), xytext=(0, 2 + 9 * row),
+        ax.annotate(s, (x, 1.0), xycoords=("data", "axes fraction"), xytext=(0, 2 + 8 * row),
                     textcoords="offset points", ha="center", va="bottom", fontsize=7, color=INK2)
     ax.set_xlabel("Independent log-perplexity of stratum (SmolLM2-360M; lower = more predictable)")
     ax.set_ylabel("False-positive rate (%)")
@@ -81,11 +82,12 @@ def fig1_h1(cells: pd.DataFrame, out: Path) -> None:
     _save(fig, out, "fig1_h1_unification")
 
 
-def fig2_h2(cells: pd.DataFrame, out: Path) -> None:
+def fig2_h2(cells: pd.DataFrame, out: Path, name: str = "fig2_h2_reference_shift",
+            note: str = "") -> None:
     c = cells[cells["detector"] == "D1"]
     order = c.groupby("stratum")["log_ppl_indep"].mean().sort_values().index
     m = c.pivot_table(index="stratum", columns="reference", values="fpr").loc[order] * 100
-    fig, ax = plt.subplots(figsize=(5.4, 0.32 * len(m) + 1.4))
+    fig, ax = plt.subplots(figsize=(2.6 + 0.6 * m.shape[1], 0.32 * len(m) + 1.4))
     vmax = max(float(np.nanmax(m.to_numpy())), 1e-9)
     cmap = matplotlib.colors.ListedColormap(SEQ)
     ax.imshow(m.to_numpy(), cmap=cmap, vmin=0, vmax=vmax, aspect="auto")
@@ -101,9 +103,9 @@ def fig2_h2(cells: pd.DataFrame, out: Path) -> None:
     for sp in ax.spines.values():
         sp.set_visible(False)
     ax.tick_params(length=0)
-    fig.suptitle("Fast-DetectGPT false-positive rate (%), by reference model", x=0.02, ha="left",
+    fig.suptitle("Fast-DetectGPT false-positive rate (%),\nby reference model" + note, x=0.02, ha="left",
                  fontsize=9, color=INK)
-    _save(fig, out, "fig2_h2_reference_shift")
+    _save(fig, out, name)
 
 
 def fig3_h5(deltas: pd.DataFrame, out: Path) -> None:
@@ -130,17 +132,18 @@ def fig3_h5(deltas: pd.DataFrame, out: Path) -> None:
 
 
 def fig4_forecast(cmp: pd.DataFrame, out: Path) -> None:
-    fig, ax = plt.subplots(figsize=(3.4, 3.2))
+    # Legend sits outside the plot (identity = marker shape + colour + name), so no
+    # in-plot labels compete with points piled up at forecast 0.
+    fig, ax = plt.subplots(figsize=(5.0, 3.2))
     hi = 100 * max(cmp["fpr"].max(), cmp["fpr_pred"].max()) * 1.08 + 1
     ax.plot([0, hi], [0, hi], color=AXIS, linewidth=1, linestyle="--", zorder=1)
     for i, (s, g) in enumerate(cmp.groupby("stratum")):
         ax.scatter(100 * g["fpr_pred"], 100 * g["fpr"], s=26, marker=MARKERS[i % 3], color=SERIES[i % 3],
-                   edgecolor=SURF, linewidth=0.8, zorder=3, label=f"{s} {_short(s)}")
-        ax.annotate(s, (100 * g["fpr_pred"].mean(), 100 * g["fpr"].mean()), xytext=(6, -10),
-                    textcoords="offset points", fontsize=7.5, color=INK2)
-    ax.set(xlim=(0, hi), ylim=(0, hi), xlabel="Forecast FPR (%) — committed before scoring",
+                   edgecolor=SURF, linewidth=0.8, zorder=3, label=f"{s} {_short(s)}", clip_on=False)
+    ax.set(xlim=(-0.03 * hi, hi), ylim=(-0.03 * hi, hi), xlabel="Forecast FPR (%) — committed before scoring",
            ylabel="Observed FPR (%)")
-    ax.legend(fontsize=7, loc="upper left")
+    ax.set_aspect("equal")
+    ax.legend(fontsize=7, loc="upper left", bbox_to_anchor=(1.02, 1.0))
     _save(fig, out, "fig4_forecast")
 
 
