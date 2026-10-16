@@ -87,7 +87,7 @@ I won't change this.
 
 **How far a subset closes the gap.** D(T) is the sum, over the eleven populations, of |FPR(T) − FPR(target)|. D(∅), with nothing swapped, is the full distance between the two references' profiles. The value of a subset is v(T) = D(∅) − D(T), meaning how much of that distance taking T from the target closes.
 
-**Shares.** Each part's Shapley value over v, divided by D(∅), is its **share** of the shift. The four shares add up to 1. I also report how much each part closes when it is swapped on its own (the single-swap share).
+**Shares.** Each part's Shapley value over v, divided by D(∅), is its **share** of the shift. The four shares add up to 1. A share can be negative, if swapping that part moves the profile away from the target rather than towards it. I also report how much each part closes when it is swapped on its own (the single-swap share).
 
 **Binoculars.** Same procedure, with two parts, NLL_perf and X.
 

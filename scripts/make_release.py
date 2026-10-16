@@ -138,6 +138,6 @@ shutil.copy(ROOT / "scripts" / "release_README.md", OUT / "README.md")
 
 sums = [f"{hashlib.sha256(p.read_bytes()).hexdigest()}  {p.relative_to(OUT).as_posix()}"
         for p in sorted(OUT.rglob("*")) if p.is_file()]
-(OUT / "SHA256SUMS").write_text("\n".join(sums) + "\n")
+(OUT / "SHA256SUMS").write_text("\n".join(sums) + "\n", newline="\n")   # LF, so sha256sum -c works everywhere
 print(f"wrote {len(sums)} files to {OUT}")
 print(f"documents {d.shape}, edits {e.shape}, control {c.shape}, fpr rows {len(fpr_tab)}")
