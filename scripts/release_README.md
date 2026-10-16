@@ -27,6 +27,7 @@ Built by `scripts/make_release.py`. `SHA256SUMS` lists a checksum for every file
 | `results/precision.json` | | fp16 vs fp32 check run before registration |
 | `results/audit_model.json` | | Fitted model behind the audit tool |
 | `results/exploratory_all_instances.json` | | Exploratory re-analysis with all ten instances (not registered) |
+| `results/followup_entropy.json` | | Registered follow-up E (https://osf.io/rd6jg): which part of the score carries the reference swap |
 | `results/ledger.jsonl` | | Scoring log with UTC timestamps for every scoring step |
 
 ## Columns

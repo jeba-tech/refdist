@@ -131,7 +131,8 @@ c.to_csv(OUT / "control_scores.csv.gz", index=False, float_format="%.6g")
 fpr_tab.to_csv(OUT / "population_fpr.csv", index=False)
 summ.to_csv(OUT / "population_summary.csv", index=False)
 fc.to_csv(OUT / "forecast_reveal.csv", index=False)
-for f in ("results.json", "thresholds.json", "validity.json", "precision.json", "audit_model.json", "ledger.jsonl"):
+for f in ("results.json", "thresholds.json", "validity.json", "precision.json", "audit_model.json", "ledger.jsonl",
+          "followup_entropy.json"):
     shutil.copy(paths.results() / f, OUT / "results" / f)
 shutil.copy(ROOT / "data" / "results" / "exploratory_all_instances.json", OUT / "results")
 shutil.copy(ROOT / "scripts" / "release_README.md", OUT / "README.md")

@@ -179,6 +179,33 @@ M["audQ"] = f"{q:.2f}"
 M["audLo"] = f"{100 / (1 + np.exp(-(lg - q))):.1f}"
 M["audHi"] = f"{100 / (1 + np.exp(-(lg + q))):.0f}"
 
+# registered follow-up E (https://osf.io/rd6jg): which score component carries the reference swap
+FU = json.loads((paths.results() / "followup_entropy.json").read_text())
+E1, E2, E3 = FU["E1"], FU["E2"], FU["E3_secondary"]
+ci2 = lambda c: f"[{c[0]:.2f}, {c[1]:.2f}]"
+M["eOneVerdict"] = E1["verdict"].lower()
+M["eOneH"] = f"{E1['share']['entropy']:.2f}"
+M["eOneHCI"] = ci2(E1["entropy_share_ci"])
+M["eOneNLL"] = f"{E1['share']['nll']:.2f}"
+M["eOneRevH"] = f"{E1['reverse_R4_to_R3']['share']['entropy']:.2f}"
+M["eOneDist"] = f"{100 * E1['total_distance']:.1f}"
+M["eTwoDist"] = f"{100 * E2['total_distance']:.1f}"
+M["eTwoVerdict"] = E2["verdict"].lower()
+M["eTwoX"] = f"{E2['share']['xent']:.2f}"
+M["eTwoXCI"] = ci2(E2["xent_share_ci"])
+M["eTwoDiffCI"] = ci2(E2["xent_minus_nll_ci"])
+M["eThreeVerdict"] = E3["verdict"].lower()
+M["eThreeCount"] = str(E3["entropy_largest_in"])
+_m, _e = f"{max(FU['score_reproduction_max_abs_diff'].values()):.0e}".split("e")
+M["eReproMax"] = f"${_m}\\times 10^{{{int(_e)}}}$"
+DM = FU["descriptive_means"]
+POPS12 = [f"S{i}" for i in range(1, 13)]
+dN = np.array([DM["R4"]["nll"][s] - DM["R3"]["nll"][s] for s in POPS12])
+dH = np.array([DM["R4"]["entropy"][s] - DM["R3"]["entropy"][s] for s in POPS12])
+M["eCorrNH"] = f"{np.corrcoef(dN, dH)[0, 1]:.2f}"
+for s, a, b in zip(POPS12, dN, dH):
+    M[f"eGap{s}"] = f"{b - a:+.3f}"
+
 # negative numbers and intervals need a true minus sign in running text too
 M = {k: (f"\\ensuremath{{{v}}}" if v.startswith(("-", "[")) else v) for k, v in M.items()}
 
@@ -259,6 +286,40 @@ for s in sorted(MAN, key=lambda k: int(k[1:])):
     lines.append(f"{s} & " + " & ".join(str(per[str(b)]) for b in range(len(edges) - 1)) + r" \\")
 lines += [r"\bottomrule", r"\end{tabular}"]
 (OUT / "bands.tex").write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+# follow-up E: Shapley shares of each score component (registered verdict rules in rd6jg)
+def share_row(label, e, verdict):
+    sh, single = e["share"], e["single_swap_share"]
+    cell = lambda d, c: f"${d[c]:.2f}$" if c in d else "--"
+    return (f"{label} & " + " & ".join(cell(sh, c) for c in C4) + " & "
+            + " & ".join(cell(single, c) for c in C4) + f" & {verdict} \\\\")
+
+
+C4 = ("nll", "entropy", "var", "n")
+E2_AS_4 = {k: {"nll": E2[k]["nll"], "entropy": E2[k]["xent"]} for k in ("share", "single_swap_share")}
+lines = [r"\begin{tabular}{@{}l rrrr rrrr l@{}}", r"\toprule",
+         r" & \multicolumn{4}{c}{Shapley share} & \multicolumn{4}{c}{Single-swap share} & \\",
+         r"\cmidrule(lr){2-5}\cmidrule(lr){6-9}",
+         r"Swap & NLL & $H$ & $V$ & $n$ & NLL & $H$ & $V$ & $n$ & Verdict \\", r"\midrule",
+         share_row(r"E1: FD R3$\to$R4", E1, E1["verdict"].capitalize()),
+         share_row(r"\quad reverse R4$\to$R3", E1["reverse_R4_to_R3"], "descriptive"),
+         share_row(r"E2: Bino R4$\to$R5$^\ast$", E2_AS_4, E2["verdict"].capitalize()),
+         r"\midrule"]
+for pair, v in E3["pairs"].items():
+    a, b = pair.split("->")
+    lines.append(share_row(f"E3: FD {a}$\\to${b}", v, ""))
+lines += [r"\midrule",
+          f"\\multicolumn{{10}}{{@{{}}l}}{{E3: $H$ largest in {E3['entropy_largest_in']} of {E3['of']} "
+          f"pairs (bar 6): {E3['verdict'].capitalize()}}} \\\\",
+          r"\bottomrule", r"\end{tabular}"]
+(OUT / "followup.tex").write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+# per-population change in mean NLL, H and their gap, R3 -> R4 (registered descriptive output)
+lines = [r"\begin{tabular}{@{}l rrr@{}}", r"\toprule",
+         r"Population & $\Delta$NLL & $\Delta H$ & $\Delta(H-\mathrm{NLL})$ \\", r"\midrule"]
+lines += [f"{s} {NAMES[s]} & ${a:+.3f}$ & ${b:+.3f}$ & ${b - a:+.3f}$ \\\\" for s, a, b in zip(POPS12, dN, dH)]
+lines += [r"\bottomrule", r"\end{tabular}"]
+(OUT / "followup_gap.tex").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 print("wrote", sorted(p.name for p in OUT.iterdir()))
 print("forecast MAE all/zero-shot/trained:", {k: round(100 * v, 1) for k, v in fc_mae.items()})
