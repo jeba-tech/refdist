@@ -136,6 +136,11 @@ for f in ("results.json", "thresholds.json", "validity.json", "precision.json", 
 shutil.copy(ROOT / "data" / "results" / "exploratory_all_instances.json", OUT / "results")
 shutil.copy(ROOT / "scripts" / "release_README.md", OUT / "README.md")
 
+# Unix line endings in every text file, so the checksums hold after git and on any OS
+for p in OUT.rglob("*"):
+    if p.is_file() and p.suffix != ".gz":
+        p.write_bytes(p.read_bytes().replace(b"\r\n", b"\n"))
+
 sums = [f"{hashlib.sha256(p.read_bytes()).hexdigest()}  {p.relative_to(OUT).as_posix()}"
         for p in sorted(OUT.rglob("*")) if p.is_file()]
 (OUT / "SHA256SUMS").write_text("\n".join(sums) + "\n", newline="\n")   # LF, so sha256sum -c works everywhere
