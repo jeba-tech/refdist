@@ -31,7 +31,7 @@ import pandas as pd  # noqa: E402
 
 from refdist import config, paths  # noqa: E402
 
-INK, INK2, MUTED, GRID, AXIS, SURF = "#0b0b0b", "#52514e", "#898781", "#e1e0d9", "#c3c2b7", "#fcfcfb"
+INK, INK2, MUTED, GRID, AXIS, SURF = "#0b0b0b", "#52514e", "#898781", "#e1e0d9", "#c3c2b7", "#ffffff"  # white: print page
 SERIES = ["#2a78d6", "#eb6834", "#1baf7a"]
 MARKERS = ["o", "s", "^"]
 SEQ = ["#cde2fb", "#b7d3f6", "#9ec5f4", "#86b6ef", "#6da7ec", "#5598e7", "#3987e5",
@@ -59,7 +59,7 @@ def _save(fig, out: Path, name: str) -> None:
 
 
 def fig1_h1(cells: pd.DataFrame, out: Path) -> None:
-    fig, ax = plt.subplots(figsize=(6.6, 3.4))
+    fig, ax = plt.subplots(figsize=(6.6, 2.8))
     for i, (fam, label) in enumerate((("zero_shot", "Zero-shot (scorer LM)"), ("trained", "Trained classifier"))):
         c = cells[cells["family"] == fam]
         ax.scatter(c["log_ppl_indep"], 100 * c["fpr"], s=22, marker=MARKERS[i], color=SERIES[i],
@@ -109,24 +109,28 @@ def fig2_h2(cells: pd.DataFrame, out: Path, name: str = "fig2_h2_reference_shift
 
 
 def fig3_h5(deltas: pd.DataFrame, out: Path) -> None:
+    """deltas: only the instances the analysis includes; zero-shot and trained drawn apart."""
     keys = list(config.TRANSFORMS)
-    fig, axes = plt.subplots(2, 3, figsize=(6.6, 3.9), sharex=True, sharey=True)
-    common = np.polyfit(deltas["dlogppl"], deltas["dz"], 1)
+    fig, axes = plt.subplots(2, 3, figsize=(6.6, 3.3), sharex=True, sharey=True)
     xs = np.linspace(deltas["dlogppl"].quantile(0.005), deltas["dlogppl"].quantile(0.995), 20)
+    fams = (("zero-shot", deltas["detector"].isin(["D1", "D2"])), ("trained", ~deltas["detector"].isin(["D1", "D2"])))
     for ax, k in zip(axes.flat, keys):
-        g = deltas[deltas["transform"] == k]
-        ax.scatter(g["dlogppl"], g["dz"], s=4, color=SERIES[0], alpha=0.25, linewidth=0, zorder=2)
-        ax.plot(xs, np.polyval(common, xs), color=INK2, linewidth=1.2, linestyle="--", zorder=3)
-        if len(g) > 2:
-            ax.plot(xs, np.polyval(np.polyfit(g["dlogppl"], g["dz"], 1), xs), color=SERIES[0], zorder=4)
+        for i, (label, mask) in enumerate(fams):
+            g = deltas[mask & (deltas["transform"] == k)]
+            ax.scatter(g["dlogppl"], g["dz"], s=4, marker=MARKERS[i], color=SERIES[i], alpha=0.2,
+                       linewidth=0, zorder=2)
+            if len(g) > 2:
+                ax.plot(xs, np.polyval(np.polyfit(g["dlogppl"], g["dz"], 1), xs), color=SERIES[i],
+                        zorder=4, label=label)
         ax.axhline(0, color=AXIS, linewidth=0.8, zorder=1)
         ax.axvline(0, color=AXIS, linewidth=0.8, zorder=1)
         ax.set_title(f"{k}: {config.TRANSFORMS[k]['name'].replace('_', ' ')}", loc="left", color=INK)
+    axes[0, 0].legend(loc="lower left", fontsize=7, handlelength=1.2)
     for ax in axes[1]:
         ax.set_xlabel("Δ log-perplexity")
     for ax in axes[:, 0]:
         ax.set_ylabel("Δ detector score (SD)")
-    fig.text(0.99, 0.005, "solid: this transform's slope   dashed: common slope", ha="right",
+    fig.text(0.99, 0.005, "lines: least-squares slope per detector family", ha="right",
              fontsize=7, color=MUTED)
     _save(fig, out, "fig3_h5_transforms")
 
@@ -134,7 +138,7 @@ def fig3_h5(deltas: pd.DataFrame, out: Path) -> None:
 def fig4_forecast(cmp: pd.DataFrame, out: Path) -> None:
     # Legend sits outside the plot (identity = marker shape + colour + name), so no
     # in-plot labels compete with points piled up at forecast 0.
-    fig, ax = plt.subplots(figsize=(5.0, 3.2))
+    fig, ax = plt.subplots(figsize=(3.3, 3.6))  # one paper column, legend below
     hi = 100 * max(cmp["fpr"].max(), cmp["fpr_pred"].max()) * 1.08 + 1
     ax.plot([0, hi], [0, hi], color=AXIS, linewidth=1, linestyle="--", zorder=1)
     for i, (s, g) in enumerate(cmp.groupby("stratum")):
@@ -143,7 +147,7 @@ def fig4_forecast(cmp: pd.DataFrame, out: Path) -> None:
     ax.set(xlim=(-0.03 * hi, hi), ylim=(-0.03 * hi, hi), xlabel="Forecast FPR (%) — committed before scoring",
            ylabel="Observed FPR (%)")
     ax.set_aspect("equal")
-    ax.legend(fontsize=7, loc="upper left", bbox_to_anchor=(1.02, 1.0))
+    ax.legend(fontsize=7, loc="upper center", bbox_to_anchor=(0.5, -0.2), ncol=1)
     _save(fig, out, "fig4_forecast")
 
 
@@ -158,7 +162,8 @@ def make_all(out: Path) -> list[str]:
     fig1_h1(cells, out); made.append("fig1")
     fig2_h2(cells, out); made.append("fig2")
     if paths.variants_file().exists() and (scores["group"] == "variants").any():
-        fig3_h5(H.h5_deltas(scores, pd.read_parquet(paths.variants_file())), out); made.append("fig3")
+        deltas = H.h5_deltas(scores, pd.read_parquet(paths.variants_file()))
+        fig3_h5(deltas[deltas["instance"].isin(fl.load_thresholds())], out); made.append("fig3")
     if paths.forecast_file().exists() and cells["stratum"].isin(config.FORECAST_STRATA).any():
         from refdist.analysis.forecast import reveal
         fig4_forecast(reveal(), out); made.append("fig4")

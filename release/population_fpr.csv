@@ -1,0 +1,121 @@
+instance,population,n,n_flagged,fpr,wilson_lo,wilson_hi,status
+D1@R1,S1,1000,21,0.021,0.0138,0.0319,exploratory (failed positive control)
+D1@R1,S10,1000,1,0.001,0.0002,0.0056,exploratory (failed positive control)
+D1@R1,S11,1000,31,0.031,0.0219,0.0437,exploratory (failed positive control)
+D1@R1,S12,1000,6,0.006,0.0028,0.013,exploratory (failed positive control)
+D1@R1,S2,1000,16,0.016,0.0099,0.0258,exploratory (failed positive control)
+D1@R1,S3,1000,22,0.022,0.0146,0.0331,exploratory (failed positive control)
+D1@R1,S4,1000,17,0.017,0.0106,0.0271,exploratory (failed positive control)
+D1@R1,S5,1000,78,0.078,0.0629,0.0963,exploratory (failed positive control)
+D1@R1,S6,1000,49,0.049,0.0373,0.0642,exploratory (failed positive control)
+D1@R1,S7,1000,64,0.064,0.0504,0.0809,exploratory (failed positive control)
+D1@R1,S8,1000,23,0.023,0.0154,0.0343,exploratory (failed positive control)
+D1@R1,S9,1000,26,0.026,0.0178,0.0378,exploratory (failed positive control)
+D1@R2,S1,1000,32,0.032,0.0228,0.0448,exploratory (failed positive control)
+D1@R2,S10,1000,1,0.001,0.0002,0.0056,exploratory (failed positive control)
+D1@R2,S11,1000,54,0.054,0.0416,0.0698,exploratory (failed positive control)
+D1@R2,S12,1000,7,0.007,0.0034,0.0144,exploratory (failed positive control)
+D1@R2,S2,1000,29,0.029,0.0203,0.0413,exploratory (failed positive control)
+D1@R2,S3,1000,37,0.037,0.027,0.0506,exploratory (failed positive control)
+D1@R2,S4,1000,38,0.038,0.0278,0.0517,exploratory (failed positive control)
+D1@R2,S5,1000,70,0.07,0.0558,0.0875,exploratory (failed positive control)
+D1@R2,S6,1000,49,0.049,0.0373,0.0642,exploratory (failed positive control)
+D1@R2,S7,1000,56,0.056,0.0434,0.072,exploratory (failed positive control)
+D1@R2,S8,1000,28,0.028,0.0194,0.0402,exploratory (failed positive control)
+D1@R2,S9,1000,21,0.021,0.0138,0.0319,exploratory (failed positive control)
+D1@R3,S1,1000,34,0.034,0.0244,0.0471,registered
+D1@R3,S10,1000,4,0.004,0.0016,0.0102,registered
+D1@R3,S11,1000,71,0.071,0.0567,0.0886,registered
+D1@R3,S12,1000,14,0.014,0.0084,0.0234,registered
+D1@R3,S2,1000,27,0.027,0.0186,0.039,registered
+D1@R3,S3,1000,49,0.049,0.0373,0.0642,registered
+D1@R3,S4,1000,52,0.052,0.0399,0.0676,registered
+D1@R3,S5,1000,77,0.077,0.062,0.0952,registered
+D1@R3,S6,1000,49,0.049,0.0373,0.0642,registered
+D1@R3,S7,1000,85,0.085,0.0693,0.1039,registered
+D1@R3,S8,1000,42,0.042,0.0312,0.0563,registered
+D1@R3,S9,1000,38,0.038,0.0278,0.0517,registered
+D1@R4,S1,1000,40,0.04,0.0295,0.054,registered
+D1@R4,S10,1000,19,0.019,0.0122,0.0295,registered
+D1@R4,S11,1000,79,0.079,0.0638,0.0974,registered
+D1@R4,S12,1000,13,0.013,0.0076,0.0221,registered
+D1@R4,S2,1000,41,0.041,0.0304,0.0551,registered
+D1@R4,S3,1000,104,0.104,0.0866,0.1245,registered
+D1@R4,S4,1000,100,0.1,0.0829,0.1202,registered
+D1@R4,S5,1000,90,0.09,0.0738,0.1093,registered
+D1@R4,S6,1000,49,0.049,0.0373,0.0642,registered
+D1@R4,S7,1000,63,0.063,0.0495,0.0798,registered
+D1@R4,S8,1000,27,0.027,0.0186,0.039,registered
+D1@R4,S9,1000,62,0.062,0.0487,0.0787,registered
+D1@R5,S1,1000,40,0.04,0.0295,0.054,exploratory (failed positive control)
+D1@R5,S10,1000,4,0.004,0.0016,0.0102,exploratory (failed positive control)
+D1@R5,S11,1000,119,0.119,0.1004,0.1405,exploratory (failed positive control)
+D1@R5,S12,1000,6,0.006,0.0028,0.013,exploratory (failed positive control)
+D1@R5,S2,1000,26,0.026,0.0178,0.0378,exploratory (failed positive control)
+D1@R5,S3,1000,121,0.121,0.1022,0.1427,exploratory (failed positive control)
+D1@R5,S4,1000,100,0.1,0.0829,0.1202,exploratory (failed positive control)
+D1@R5,S5,1000,62,0.062,0.0487,0.0787,exploratory (failed positive control)
+D1@R5,S6,1000,49,0.049,0.0373,0.0642,exploratory (failed positive control)
+D1@R5,S7,1000,37,0.037,0.027,0.0506,exploratory (failed positive control)
+D1@R5,S8,1000,23,0.023,0.0154,0.0343,exploratory (failed positive control)
+D1@R5,S9,1000,18,0.018,0.0114,0.0283,exploratory (failed positive control)
+D2@R4,S1,1000,18,0.018,0.0114,0.0283,registered
+D2@R4,S10,1000,5,0.005,0.0021,0.0117,registered
+D2@R4,S11,1000,100,0.1,0.0829,0.1202,registered
+D2@R4,S12,1000,0,0.0,0.0,0.0038,registered
+D2@R4,S2,1000,15,0.015,0.0091,0.0246,registered
+D2@R4,S3,1000,88,0.088,0.072,0.1072,registered
+D2@R4,S4,1000,71,0.071,0.0567,0.0886,registered
+D2@R4,S5,1000,74,0.074,0.0594,0.0919,registered
+D2@R4,S6,1000,49,0.049,0.0373,0.0642,registered
+D2@R4,S7,1000,23,0.023,0.0154,0.0343,registered
+D2@R4,S8,1000,14,0.014,0.0084,0.0234,registered
+D2@R4,S9,1000,26,0.026,0.0178,0.0378,registered
+D2@R5,S1,1000,22,0.022,0.0146,0.0331,registered
+D2@R5,S10,1000,4,0.004,0.0016,0.0102,registered
+D2@R5,S11,1000,124,0.124,0.105,0.1459,registered
+D2@R5,S12,1000,3,0.003,0.001,0.0088,registered
+D2@R5,S2,1000,22,0.022,0.0146,0.0331,registered
+D2@R5,S3,1000,136,0.136,0.1161,0.1586,registered
+D2@R5,S4,1000,112,0.112,0.0939,0.1331,registered
+D2@R5,S5,1000,63,0.063,0.0495,0.0798,registered
+D2@R5,S6,1000,49,0.049,0.0373,0.0642,registered
+D2@R5,S7,1000,57,0.057,0.0443,0.0731,registered
+D2@R5,S8,1000,32,0.032,0.0228,0.0448,registered
+D2@R5,S9,1000,21,0.021,0.0138,0.0319,registered
+D3,S1,1000,72,0.072,0.0576,0.0897,exploratory (failed positive control)
+D3,S10,1000,195,0.195,0.1716,0.2207,exploratory (failed positive control)
+D3,S11,1000,79,0.079,0.0638,0.0974,exploratory (failed positive control)
+D3,S12,1000,56,0.056,0.0434,0.072,exploratory (failed positive control)
+D3,S2,1000,68,0.068,0.054,0.0853,exploratory (failed positive control)
+D3,S3,1000,64,0.064,0.0504,0.0809,exploratory (failed positive control)
+D3,S4,1000,56,0.056,0.0434,0.072,exploratory (failed positive control)
+D3,S5,1000,56,0.056,0.0434,0.072,exploratory (failed positive control)
+D3,S6,1000,49,0.049,0.0373,0.0642,exploratory (failed positive control)
+D3,S7,1000,92,0.092,0.0756,0.1115,exploratory (failed positive control)
+D3,S8,1000,72,0.072,0.0576,0.0897,exploratory (failed positive control)
+D3,S9,1000,57,0.057,0.0443,0.0731,exploratory (failed positive control)
+D4,S1,1000,19,0.019,0.0122,0.0295,registered
+D4,S10,1000,0,0.0,0.0,0.0038,registered
+D4,S11,1000,14,0.014,0.0084,0.0234,registered
+D4,S12,1000,12,0.012,0.0069,0.0209,registered
+D4,S2,1000,33,0.033,0.0236,0.046,registered
+D4,S3,1000,2,0.002,0.0005,0.0073,registered
+D4,S4,1000,1,0.001,0.0002,0.0056,registered
+D4,S5,1000,39,0.039,0.0287,0.0529,registered
+D4,S6,1000,49,0.049,0.0373,0.0642,registered
+D4,S7,1000,149,0.149,0.1283,0.1724,registered
+D4,S8,1000,198,0.198,0.1745,0.2238,registered
+D4,S9,1000,137,0.137,0.1171,0.1597,registered
+D5,S1,1000,3,0.003,0.001,0.0088,registered
+D5,S10,1000,95,0.095,0.0783,0.1148,registered
+D5,S11,1000,17,0.017,0.0106,0.0271,registered
+D5,S12,1000,163,0.163,0.1414,0.1872,registered
+D5,S2,1000,10,0.01,0.0054,0.0183,registered
+D5,S3,1000,0,0.0,0.0,0.0038,registered
+D5,S4,1000,0,0.0,0.0,0.0038,registered
+D5,S5,1000,49,0.049,0.0373,0.0642,registered
+D5,S6,1000,49,0.049,0.0373,0.0642,registered
+D5,S7,1000,98,0.098,0.0811,0.118,registered
+D5,S8,1000,28,0.028,0.0194,0.0402,registered
+D5,S9,1000,114,0.114,0.0958,0.1352,registered

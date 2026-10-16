@@ -1,0 +1,169 @@
+{
+  "positive_control": [
+    {
+      "instance": "D1@R1",
+      "auroc": 0.788356,
+      "flipped": false,
+      "passed": false,
+      "n_human": 1000,
+      "n_control": 500
+    },
+    {
+      "instance": "D1@R2",
+      "auroc": 0.792314,
+      "flipped": false,
+      "passed": false,
+      "n_human": 1000,
+      "n_control": 500
+    },
+    {
+      "instance": "D1@R3",
+      "auroc": 0.8271559999999998,
+      "flipped": false,
+      "passed": true,
+      "n_human": 1000,
+      "n_control": 500
+    },
+    {
+      "instance": "D1@R4",
+      "auroc": 0.8668919999999999,
+      "flipped": false,
+      "passed": true,
+      "n_human": 1000,
+      "n_control": 500
+    },
+    {
+      "instance": "D1@R5",
+      "auroc": 0.779206,
+      "flipped": false,
+      "passed": false,
+      "n_human": 1000,
+      "n_control": 500
+    },
+    {
+      "instance": "D2@R4",
+      "auroc": 0.997446,
+      "flipped": false,
+      "passed": true,
+      "n_human": 1000,
+      "n_control": 500
+    },
+    {
+      "instance": "D2@R5",
+      "auroc": 0.816533,
+      "flipped": false,
+      "passed": true,
+      "n_human": 1000,
+      "n_control": 500
+    },
+    {
+      "instance": "D3",
+      "auroc": 0.501533,
+      "flipped": false,
+      "passed": false,
+      "n_human": 1000,
+      "n_control": 500
+    },
+    {
+      "instance": "D4",
+      "auroc": 0.9612719999999999,
+      "flipped": false,
+      "passed": true,
+      "n_human": 1000,
+      "n_control": 500
+    },
+    {
+      "instance": "D5",
+      "auroc": 0.912726,
+      "flipped": false,
+      "passed": true,
+      "n_human": 1000,
+      "n_control": 500
+    }
+  ],
+  "negative_control": [
+    {
+      "instance": "D1@R3",
+      "fpr": 0.049,
+      "passed": true
+    },
+    {
+      "instance": "D1@R4",
+      "fpr": 0.049,
+      "passed": true
+    },
+    {
+      "instance": "D2@R4",
+      "fpr": 0.049,
+      "passed": true
+    },
+    {
+      "instance": "D2@R5",
+      "fpr": 0.049,
+      "passed": true
+    },
+    {
+      "instance": "D4",
+      "fpr": 0.049,
+      "passed": true
+    },
+    {
+      "instance": "D5",
+      "fpr": 0.049,
+      "passed": true
+    }
+  ],
+  "length_invariance": [
+    {
+      "instance": "D1@R3",
+      "fpr_spread": 0.033954684235899084,
+      "passed": false
+    },
+    {
+      "instance": "D1@R4",
+      "fpr_spread": 0.020870885115264207,
+      "passed": true
+    },
+    {
+      "instance": "D2@R4",
+      "fpr_spread": 0.027347485178810478,
+      "passed": true
+    },
+    {
+      "instance": "D2@R5",
+      "fpr_spread": 0.03083900226757369,
+      "passed": false
+    },
+    {
+      "instance": "D4",
+      "fpr_spread": 0.030942668311039433,
+      "passed": false
+    },
+    {
+      "instance": "D5",
+      "fpr_spread": 0.14682539682539683,
+      "passed": false
+    }
+  ],
+  "included_instances": [
+    "D1@R3",
+    "D1@R4",
+    "D2@R4",
+    "D2@R5",
+    "D4",
+    "D5"
+  ],
+  "excluded_instances": [
+    "D1@R1",
+    "D1@R2",
+    "D1@R5",
+    "D3"
+  ],
+  "_provenance": {
+    "refdist_version": "0.1.0",
+    "config_hash": "171eb9a991f0db4c",
+    "git_sha": "4693764",
+    "python": "3.11.4",
+    "utc": "2026-10-05T11:54:33+00:00"
+  }
+}

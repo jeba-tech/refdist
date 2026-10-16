@@ -121,3 +121,30 @@ by the same rule, in a scratch copy, so the frozen registered thresholds are
 untouched. Its output (`exploratory_all_instances.json`, figure
 `figS1_h2_all_references_EXPLORATORY`) is **exploratory**. It does not feed the
 registered decision and will be reported in the paper only under that label.
+
+## 7. Non-analysis changes and one software difference (2026-10-16)
+
+**Changes to files that compute no result.**
+- `refdist/figures/make.py`: layout and colours. Figure 3 now plots only the
+  instances that passed the positive control, split into zero-shot and
+  trained. Plotting only.
+- `refdist/config.py`: the OSF link was filled in after registration. No
+  setting changed; the configuration hash recorded in every output
+  (`171eb9a991f0db4c`) is the same before and after.
+- New scripts: `scripts/paper_tables.py` writes the paper's tables from the
+  results files, and `scripts/make_release.py` writes the derived-statistics
+  release (`release/`) promised in Section 10 of the registration. Neither
+  computes anything new.
+
+**Python version.** The registration (Section 7) lists Python 3.11. The
+Kaggle scoring runs used Kaggle's Python 3.13 (recorded in `ledger.jsonl`).
+The corpus, the H5 edits and every statistic in the registered report were
+produced locally on Python 3.11.4 with the registered statsmodels 0.15.0 and
+wordfreq 3.1.1. Scores are deterministic model outputs, and their fp16
+precision was checked before registration.
+
+**Check.** Regenerating all 5,085 H5 edited texts with the current code gives
+byte-identical texts (same SHA-256) to the ones that were scored.
+
+**Effect on the registered analysis.** None. No number, verdict or decision
+changes.

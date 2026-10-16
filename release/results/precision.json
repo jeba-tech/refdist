@@ -1,0 +1,55 @@
+{
+  "models": {
+    "HuggingFaceTB/SmolLM2-360M": {
+      "dtype": "float16",
+      "max_diff_over_sd": 0.0102343090498889,
+      "spearman": 1.0
+    },
+    "openai-community/gpt2-large": {
+      "dtype": "float16",
+      "max_diff_over_sd": 0.003969003537205196,
+      "spearman": 1.0
+    },
+    "EleutherAI/gpt-neo-1.3B": {
+      "dtype": "float16",
+      "max_diff_over_sd": 0.011498297275873617,
+      "spearman": 1.0
+    },
+    "EleutherAI/pythia-1.4b": {
+      "dtype": "float16",
+      "max_diff_over_sd": 0.021020165736574434,
+      "spearman": 0.9996247654784242
+    },
+    "allenai/OLMo-2-0425-1B": {
+      "dtype": "float16",
+      "max_diff_over_sd": 0.006738277051591908,
+      "spearman": 1.0
+    },
+    "allenai/OLMo-2-0425-1B-Instruct": {
+      "dtype": "float16",
+      "max_diff_over_sd": 0.0034189996247675452,
+      "spearman": 1.0
+    },
+    "Qwen/Qwen2.5-0.5B": {
+      "dtype": "float16",
+      "max_diff_over_sd": 0.010555452779534681,
+      "spearman": 0.9996247654784242
+    },
+    "Qwen/Qwen2.5-0.5B-Instruct": {
+      "dtype": "float16",
+      "max_diff_over_sd": 0.009508927950887522,
+      "spearman": 0.9996247654784242
+    }
+  },
+  "rule": {
+    "max_diff_over_sd": 0.05,
+    "min_spearman": 0.999
+  },
+  "_provenance": {
+    "refdist_version": "0.1.0",
+    "config_hash": "171eb9a991f0db4c",
+    "git_sha": "nogit",
+    "python": "3.12.13",
+    "utc": "2026-10-02T08:06:49+00:00"
+  }
+}
