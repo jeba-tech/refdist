@@ -148,3 +148,24 @@ byte-identical texts (same SHA-256) to the ones that were scored.
 
 **Effect on the registered analysis.** None. No number, verdict or decision
 changes.
+
+## 8. Seed stated in the registration text (2026-10-18)
+
+**What happened.** Section 7 of the registration says "The random seed is 42
+throughout." The registered code (commit a5e7600) uses seeds derived from 42
+for everything that builds the data: sampling the populations, choosing and
+ordering the S6 answers for each edit, and sampling the positive-control
+prompts. The bootstrap of the H1 and H2 coefficients
+(`refdist/analysis/bootstrap.py::coefficients`) and the permutation tests of
+H2, H3 and H6 (`refdist/analysis/hypotheses.py::h2`, `h3`, `h6`) use their
+functions' default seed, 0, and `refdist/analysis/report.py` does not override
+it. This was found on 2026-10-18 while checking the paper against the code.
+
+**Change.** None to the code. The registered analysis ran exactly as the
+registered code specifies. The paper now states which seed each step uses.
+
+**Effect on the registered analysis.** None. A seed only fixes which random
+draws are made; no model, threshold, confirmation criterion or decision rule
+depends on it. The follow-up registration (https://osf.io/rd6jg) already
+states seed 0 for the parent study's permutation test and seed 42 for its own
+bootstrap, which is what its code uses.
