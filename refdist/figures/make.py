@@ -36,6 +36,7 @@ SERIES = ["#2a78d6", "#eb6834", "#1baf7a"]
 MARKERS = ["o", "s", "^"]
 SEQ = ["#cde2fb", "#b7d3f6", "#9ec5f4", "#86b6ef", "#6da7ec", "#5598e7", "#3987e5",
        "#2a78d6", "#256abf", "#1c5cab", "#184f95", "#104281", "#0d366b"]
+SEQ_INK = SEQ[:7]  # heatmap steps light enough for INK numbers (>= 5.4:1), so no white text is needed
 
 plt.rcParams.update({
     "font.family": "sans-serif", "font.size": 8.5, "axes.titlesize": 9, "axes.labelsize": 8.5,
@@ -89,12 +90,11 @@ def fig2_h2(cells: pd.DataFrame, out: Path, name: str = "fig2_h2_reference_shift
     m = c.pivot_table(index="stratum", columns="reference", values="fpr").loc[order] * 100
     fig, ax = plt.subplots(figsize=(2.6 + 0.6 * m.shape[1], 0.32 * len(m) + 1.4))
     vmax = max(float(np.nanmax(m.to_numpy())), 1e-9)
-    cmap = matplotlib.colors.ListedColormap(SEQ)
+    cmap = matplotlib.colors.ListedColormap(SEQ_INK)
     ax.imshow(m.to_numpy(), cmap=cmap, vmin=0, vmax=vmax, aspect="auto")
     for (i, j), v in np.ndenumerate(m.to_numpy()):
         if np.isfinite(v):
-            ax.text(j, i, f"{v:.0f}", ha="center", va="center", fontsize=7.5,
-                    color="#ffffff" if v / vmax > 0.55 else INK)
+            ax.text(j, i, f"{v:.0f}", ha="center", va="center", fontsize=7.5, color=INK)
     corpus = {r: textwrap.fill(config.REFERENCE_MODELS[r]["corpus"], 10, break_long_words=False)
               for r in m.columns}
     ax.set_xticks(range(m.shape[1]), [f"{r}\n{corpus[r]}" for r in m.columns], fontsize=7.5)

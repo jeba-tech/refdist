@@ -169,3 +169,12 @@ draws are made; no model, threshold, confirmation criterion or decision rule
 depends on it. The follow-up registration (https://osf.io/rd6jg) already
 states seed 0 for the parent study's permutation test and seed 42 for its own
 bootstrap, which is what its code uses.
+
+## 9. Heatmap number colour (2026-10-20)
+
+**Change.** `refdist/figures/make.py`: the heatmap uses only the lighter seven
+steps of its blue scale, and every number is printed in dark ink. Before,
+numbers on the darkest cells were white, which text-similarity checkers report
+as hidden text. Plotting only; the plotted values are unchanged.
+
+**Effect on the registered analysis.** None.
